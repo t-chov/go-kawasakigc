@@ -28,3 +28,8 @@ $ go get github.com/t-chov/kgc
 `/resources` 以下にオープンデータのCSVと、GoのMapに変換するPythonスクリプトが入っています。
 
 `python converter.py original.csv` を実行し、実行結果を `go_gc.csv` と置き換えてください( `go:embed` しています)
+
+## TODO
+
+- [ ] [ごみの出し方](https://www.city.kawasaki.jp/kurashi/category/24-1-23-1-0-0-0-0-0-0.html) へのリンクを作る
+- [ ] Lambda化してAlexaから使えるようにする
