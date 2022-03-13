@@ -4,6 +4,7 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
+	"os"
 
 	"github.com/t-chov/kawasakigc/db"
 )
@@ -29,10 +30,22 @@ func pretty(g db.Garbage) string {
 }
 
 func main() {
-	db, err := db.InitDb(csvBytes)
+	dbp, err := db.InitDb(csvBytes)
 	if err != nil {
 		panic(err)
 	}
-	garbage, _ := db.Find("IH調理器")
+
+	args := os.Args
+	if len(args) == 1 {
+		fmt.Fprintf(os.Stderr, "need arguments to search.\n")
+		os.Exit(1)
+	}
+
+	db := *dbp
+	garbage, found := db.Find(args[1])
+	if !found {
+		fmt.Fprintf(os.Stderr, "not found %s.\n", args[1])
+		os.Exit(1)
+	}
 	fmt.Println(pretty(*garbage))
 }
