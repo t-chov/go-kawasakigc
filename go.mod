@@ -1,4 +1,4 @@
-module github.com/t-chov/kawasakigc
+module github.com/t-chov/kgc
 
 go 1.17
 

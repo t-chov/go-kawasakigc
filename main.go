@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/t-chov/kawasakigc/db"
+	"github.com/t-chov/kgc/db"
 )
 
 //go:embed go_gc.csv

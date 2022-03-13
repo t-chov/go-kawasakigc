@@ -14,4 +14,4 @@ Garbage data is based on [open data by Kawasaki city](https://www.city.kawasaki.
 
 `/resources` 以下にオープンデータのCSVと、GoのMapに変換するPythonスクリプトが入っています。
 
-`python converter.py gc.csv` を実行し、 `db/db.go` の `InitDb` にコピペします。
+`python converter.py original.csv` を実行し、実行結果を `go_gc.csv` と置き換えてください( `go:embed` しています)
