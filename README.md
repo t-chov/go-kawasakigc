@@ -1,7 +1,5 @@
 # Kawasaki Garbage Collection CLI
 
----
-
 川崎市のゴミ分別をCLIで検索するツールです。
 
 CLI tool for searching information of garbage collection in Kawasaki City, Japan.
@@ -17,6 +15,12 @@ $ kgc "IH調理器"
 小物金属(粗大ごみ)
 最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。
 URL: http://www.city.kawasaki.jp/kurashi/category/24-1-23-1-1-6-9-0-0-0.html
+```
+
+## Installation
+
+```
+$ go get github.com/t-chov/kgc
 ```
 
 ## How to Build DB
