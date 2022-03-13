@@ -6,7 +6,7 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as csvfile:
         reader = csv.DictReader(csvfile)
         writer = csv.DictWriter(sys.stdout, [
-            'name',
+            'Name',
             'GarbageType',
             'DetailType',
             'Description',

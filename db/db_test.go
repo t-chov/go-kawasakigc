@@ -1,12 +1,24 @@
 package db
 
 import (
+	_ "embed"
 	"reflect"
 	"testing"
 )
 
+//go:embed gc_test.csv
+var csvBytes []byte
+
+func TestInitDbFailure(t *testing.T) {
+	invalid := []byte{1, 2, 3, 4, 5}
+	got, err := InitDb(invalid)
+	if err != nil {
+		t.Errorf("got %v, expected nil", got)
+	}
+}
 func TestInitDb(t *testing.T) {
-	db := InitDb()
+	dbp, _ := InitDb(csvBytes)
+	db := *dbp
 	tests := []struct {
 		name     string
 		arg      string
@@ -34,7 +46,8 @@ func TestInitDb(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	db := InitDb()
+	dbp, _ := InitDb(csvBytes)
+	db := *dbp
 	tests := []struct {
 		name     string
 		arg      string
@@ -44,6 +57,7 @@ func TestFind(t *testing.T) {
 			name: "IH調理器 exists.",
 			arg:  "IH調理器",
 			expected: &Garbage{
+				Name:        "IH調理器",
 				GarbageType: "小物金属",
 				DetailType:  "粗大ごみ",
 				Description: "最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。",

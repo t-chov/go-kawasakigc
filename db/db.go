@@ -1,10 +1,13 @@
 package db
 
+import "github.com/gocarina/gocsv"
+
 type Garbage struct {
-	GarbageType string
-	DetailType  string
-	Description string
-	Url         string
+	Name        string `csv:"Name"`
+	GarbageType string `csv:"GarbageType"`
+	DetailType  string `csv:"DetailType"`
+	Description string `csv:"Description"`
+	Url         string `csv:"Url"`
 }
 
 type GarbageDB map[string]Garbage
@@ -17,50 +20,17 @@ func (db GarbageDB) Find(name string) (*Garbage, bool) {
 	return &garbage, true
 }
 
-func InitDb() GarbageDB {
-	db := map[string]Garbage{
-		"アームスタンド": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。",
-			Url:         "",
-		},
-		"モニタースタンド": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。",
-			Url:         "",
-		},
-		"アームバンド": {
-			GarbageType: "普通ごみ",
-			DetailType:  "",
-			Description: "",
-			Url:         "",
-		},
-		"IH調理器": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。",
-			Url:         "http://www.city.kawasaki.jp/kurashi/category/24-1-23-1-1-6-9-0-0-0.html",
-		},
-		"電磁調理器": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。",
-			Url:         "http://www.city.kawasaki.jp/kurashi/category/24-1-23-1-1-6-9-0-0-0.html",
-		},
-		"IHクッキングヒーター": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。",
-			Url:         "http://www.city.kawasaki.jp/kurashi/category/24-1-23-1-1-6-9-0-0-0.html",
-		},
-		"電気調理器": {
-			GarbageType: "小物金属",
-			DetailType:  "粗大ごみ",
-			Description: "最長辺30cm以上のものは粗大ごみとして出してください。/長辺30cm未満で、30cm×15cmの回収ボックスの投入口に入るものは小型家電としても出すことができます。",
-			Url:         "http://www.city.kawasaki.jp/kurashi/category/24-1-23-1-1-6-9-0-0-0.html",
-		},
+func InitDb(csvBytes []byte) (*GarbageDB, error) {
+	garbages := []*Garbage{}
+	if err := gocsv.UnmarshalBytes(csvBytes, &garbages); err != nil {
+		return nil, err
 	}
-	return db
+
+	db := make(GarbageDB)
+
+	for _, garbage := range garbages {
+		db[garbage.Name] = *garbage
+	}
+
+	return &db, nil
 }

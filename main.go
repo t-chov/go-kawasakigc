@@ -2,10 +2,14 @@ package main
 
 import (
 	"bytes"
+	_ "embed"
 	"fmt"
 
 	"github.com/t-chov/kawasakigc/db"
 )
+
+//go:embed go_gc.csv
+var csvBytes []byte
 
 func pretty(g db.Garbage) string {
 	var buf bytes.Buffer
@@ -25,7 +29,10 @@ func pretty(g db.Garbage) string {
 }
 
 func main() {
-	db := db.InitDb()
+	db, err := db.InitDb(csvBytes)
+	if err != nil {
+		panic(err)
+	}
 	garbage, _ := db.Find("IH調理器")
 	fmt.Println(pretty(*garbage))
 }
